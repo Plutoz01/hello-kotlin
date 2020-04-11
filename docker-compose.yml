@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  hello-kotlin:
+    container_name: hello-kotlin
+    image: 'com.plutoz.hello-kotlin:local'
+    restart: always
+    ports:
+      - '8101:8080'
+    healthcheck:
+      test: 'curl -f http://localhost:8080/actuator/health || exit 1'
+      interval: 10s
+      retries: 3
