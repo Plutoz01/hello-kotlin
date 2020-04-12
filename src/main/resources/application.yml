@@ -1,0 +1,12 @@
+server:
+  port: 8101
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/hello-kotlin
+    username: hello-kotlin
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+

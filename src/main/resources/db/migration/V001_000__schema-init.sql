@@ -1,0 +1,5 @@
+CREATE TABLE welcome (
+    id BIGSERIAL NOT NULL,
+    message TEXT NOT NULL
+);
+ALTER SEQUENCE welcome_id_seq INCREMENT 20;

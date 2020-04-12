@@ -6,13 +6,16 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("idea")
     id("com.palantir.docker") version "0.25.0"
-    kotlin("jvm") version "1.3.71"
-    kotlin("plugin.spring") version "1.3.71"
+
+    val kotlinPluginVersion = "1.3.71"
+    kotlin("jvm") version kotlinPluginVersion
+    kotlin("plugin.spring") version kotlinPluginVersion
+    kotlin("plugin.jpa") version kotlinPluginVersion
 }
 
 group = "com.plutoz"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_14
+java.sourceCompatibility = JavaVersion.VERSION_13
 java.targetCompatibility = JavaVersion.VERSION_13
 
 repositories {
@@ -20,9 +23,13 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-jetty")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    implementation("org.flywaydb:flyway-core")
+    runtimeOnly("org.postgresql:postgresql")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -64,5 +71,4 @@ docker {
 
     tag("Snapshot", "$imageName:${project.version}")
     tag("Local", "$imageName:local")
-
 }

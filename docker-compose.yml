@@ -5,8 +5,33 @@ services:
     image: 'com.plutoz.hello-kotlin:local'
     restart: always
     ports:
-      - '8101:8080'
+      - '8101:8101'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db/hello-kotlin
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     healthcheck:
       test: 'curl -f http://localhost:8080/actuator/health || exit 1'
       interval: 10s
       retries: 3
+    depends_on:
+      - db
+
+  db:
+    container_name: postgres-db
+    image: com.plutoz.hello-kotlin/postgres:latest
+    build: ./docker/postgres
+    restart: on-failure
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  pgAdmin:
+    container_name: pgAdmin4
+    image: dpage/pgadmin4
+    restart: on-failure
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hello-kotlin@plutoz.com
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
